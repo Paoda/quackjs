@@ -1,0 +1,16 @@
+/* Variables */
+:root {
+    --bg-colour: #FFFFFF;
+    --accent-colour: 
+}
+
+
+:global html,:global body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-colour);
+}
+
+:global .wrapper {
+    display: flex;
+}

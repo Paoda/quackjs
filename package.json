@@ -1,0 +1,36 @@
+{
+  "name": "quackjs",
+  "version": "2018.4.24",
+  "description": "The most secure Antivirus known to man.",
+  "main": "main_process.js",
+  "scripts": {
+    "bundle": "webpack --mode development",
+    "serve": "electron .",
+    "start": "npm-run-all --parallel bundle serve"
+  },
+  "author": "Rekai Musuka and Ethan Burnell",
+  "repository": "Paoda/quackjs",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.10",
+    "electron": "^1.8.2",
+    "electron-reload": "^1.2.2",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.10",
+    "npm-run-all": "^4.1.2",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.11"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.5",
+    "@fortawesome/fontawesome-free-brands": "^5.0.10",
+    "@fortawesome/fontawesome-free-regular": "^5.0.10",
+    "@fortawesome/fontawesome-free-solid": "^5.0.10",
+    "@fortawesome/react-fontawesome": "0.0.18",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
