@@ -24,6 +24,13 @@ export default class Menu extends React.Component {
                 <Email /><Line />
                 <Website /><Line />
                 <File /><Line />
+                <Meltdown /><Line />
+                <Spectre /><Line />
+                <Info /><Line />
+                <Home /><Line />
+                <Scan /><Line />
+                <Quarantine /><Line />
+                <Settings />
             </div>
         );
     }

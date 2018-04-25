@@ -4,13 +4,14 @@
 :root {
     --bg-colour: #FFFFFF;
     --accent-colour: #219653;
+    --tab-height: 2.5em;
 }
 
 :global html,:global body {
     margin: 0;
     padding: 0;
     background: var(--bg-colour);
-    font-family: "Roboto"; /* Ethan Suggets Comic Sans MS */
+    font-family: "Roboto", "Arial"; /* Ethan Suggets Comic Sans MS */
 }
 
 :global .wrapper {
@@ -27,7 +28,6 @@
     flex-grow: 1;
 }
 
-
 /* Status */
 :global .wrapper .status {
     color: var(--accent-colour);
@@ -35,22 +35,98 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-grow: 1;
 }
 
+:global .wrapper .status-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+:global .wrapper .status h1 {
+    font-size: 3em;
+}
 :global .wrapper .status svg {
-    font-size: 10em;
+    font-size: 20em;
 }
 
 /* Menu */
 :global .wrapper .menu {
     background: #2C2C2C;
     color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+
 }
-/* Email */
+/* Tab */
 :global .wrapper .menu .tab {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: var(--tab-height);
+
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+:global .wrapper .menu .tab svg {
+    font-size: 1.5em;
 }
 
 /* Title */
+:global .wrapper .menu .title {
+    background: var(--accent-colour);
+}
+:global .wrapper .menu .title .upgradeBox {
+    border: 2px solid #FFFFFF;
+    padding: 0.25em;    
+    letter-spacing: 0.15em;
+}
+
+:global .wrapper .menu .title .upgradeBox a {
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1em;
+}
+/* Info */
+:global .wrapper .menu .info {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    flex-grow: 1;
+
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+/* Line */
+:global hr {
+    margin: 0;
+}
+
+/* Spectre */
+:global .wrapper .menu .spectre img {
+    max-height: calc(var(--tab-height) - 0.5em);
+    width: auto;
+}
+
+/* Bar */
+:global .wrapper .status-wrapper .bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 2.5em;
+    background: #E1E1E1;
+}
+
+:global .wrapper .status-wrapper .bar .green {
+    color: var(--accent-colour);
+}
+:global .wrapper .status-wrapper .bar span svg {
+    color: var(--accent-colour);
+}
+/* Misc */
+:global .wrapper .menu .active {
+    background: var(--accent-colour);
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+}

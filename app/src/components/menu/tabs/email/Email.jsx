@@ -5,7 +5,7 @@ import faEnvelope from '@fortawesome/fontawesome-free-solid/faEnvelope';
 export default class Email extends React.Component {
     render() {
         return (
-            <div className='tab'>
+            <div className='tab email'>
                 <FontAwesome icon={faEnvelope} className="emailIcon" />
                 <span>E-mail Shield</span>               
             </div>
