@@ -1,0 +1,2 @@
+# quackjs
+Physics 30S "For Fun" Project: QuackJS: The Sandboxed, Spectre + Meltdown Secure, Blockchain based, Open Sourced Antivirus featuring a built-in Password Manager, Proxies to route all Internet traffic through TOR and the ability to constantly change the Host's Public IP.
