@@ -1,16 +1,56 @@
 /* Variables */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 :root {
     --bg-colour: #FFFFFF;
-    --accent-colour: 
+    --accent-colour: #219653;
 }
-
 
 :global html,:global body {
     margin: 0;
     padding: 0;
     background: var(--bg-colour);
+    font-family: "Roboto"; /* Ethan Suggets Comic Sans MS */
 }
 
 :global .wrapper {
     display: flex;
 }
+:global .wrapper .col {
+    flex: 1;
+    height: 100vh;
+}
+:global .wrapper .col:nth-child(1) {
+    max-width: calc(100vw / 3.5);
+}
+:global .wrapper .col:nth-child(2) {
+    flex-grow: 1;
+}
+
+
+/* Status */
+:global .wrapper .status {
+    color: var(--accent-colour);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+:global .wrapper .status svg {
+    font-size: 10em;
+}
+
+/* Menu */
+:global .wrapper .menu {
+    background: #2C2C2C;
+    color: #FFFFFF;
+}
+/* Email */
+:global .wrapper .menu .tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Title */

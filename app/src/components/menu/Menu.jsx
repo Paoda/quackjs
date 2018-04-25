@@ -14,11 +14,16 @@ import Scan from './tabs/scan/Scan';
 import Quarantine from './tabs/quarantine/Quarantine';
 import Settings from './tabs/settings/Settings';
 
+import Line from './tabs/Line';
 
 export default class Menu extends React.Component {
     render() {
         return (
-            <div className="menu">
+            <div className="menu col">
+                <Title /><Line />
+                <Email /><Line />
+                <Website /><Line />
+                <File /><Line />
             </div>
         );
     }
