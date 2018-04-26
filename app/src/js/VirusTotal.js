@@ -1,42 +1,74 @@
 import fs from 'fs';
-import Buffer from 'buffer';
-import Forge from 'node-forge';
+import Crypto from 'crypto';
+import querystring from 'querystring';
 
-
-(() => {
-    fs.readFile('./app/src/assets/private/virus_total.pub', (err, data) => {
-        if (err) throw err;
-        console.log("Virus Total Key: " + data.toString('utf8'));
-    })
-})();
 
 export default class VirusTotal {
-    constructor(key) {
-        this.prefix = "www.virustotal.com/vtapi/v2/";
-        this.request = new XMLHttpRequest();
-
+    constructor(keyPath) {
+        this.initialize(keyPath);
     }
-    calcSHA256(path) {
+
+    async initialize(keyPath) {
+        this.key = await this.getKey(keyPath);
+        console.log("Virus Total Key: " + this.key);
+        
+        this.prefix = "https://www.virustotal.com/vtapi/v2/";
+        this.request = new XMLHttpRequest();
+    }
+    getKey(path) {
         return new Promise((res, rej) => {
-            let stream = fs.createReadStream(path);
-            let SHA256 = Forge.md.sha256.create()
-            stream.on('error', (err) => rej(err));
-            stream.on('data', chunk => {
-                SHA256.update(chunk);
-            });
-            stream.on('close', () => {
-                res(SHA256.digest().toHex());
+            fs.readFile(path, (err, data) => {
+                if (err) rej(err);
+
+                if (typeof data === "object") res(data.toString('utf8')); //is Buffer
+                else res(data);
             })
         })
     }
-    async report(path) { //https://www.virustotal.com/vtapi/v2/file/report?apikey=<apikey>&resource=<resource>
-        let hash = await this.calcSHA256(path);
-        this.request.open('GET', (this.prefix + 'file/report?apikey=' + this.key + '&resource=' + hash))
+    getHash(path) {
+        return new Promise((res, rej) => {
+            let stream = fs.createReadStream(path).pipe(Crypto.createHash('sha256').setEncoding('hex')).on('finish', function() {
+                res(this.read());
+            })
+        })
+    }
+    async report(hash, path = null) { //https://www.virustotal.com/vtapi/v2/file/report?apikey=<apikey>&resource=<resource>
+        let sha256; 
+        if (path != null) sha256 = await this.getHash(path);
+        else sha256 = hash; 
 
-        this.request.on('error', e => console.error(e));
-        this.request.on('load', () => console.log(this.responseText));
+        this.request.open('GET', (this.prefix + 'file/report?apikey=' + this.key + '&resource=' + sha256))
+
+        this.request.addEventListener('error', e => console.error(e));
+        this.request.addEventListener('load', function() { console.log(this.responseText) });
+        // this.request.send(); Function Done
     }
-    scan(file) {
+    async scan(path) { //https://www.virustotal.com/vtapi/v2/file/scan
+        //Size limit: 32MB
+        let binary = await getBinary(path);
         
+        let formData = new FormData();
+        formData.append('apikey', this.key);
+        console.log(formData);
+        formData.append('file', binary.toString('utf8'));
+
+        this.request.open('POST', (this.prefix + 'file/scan'));
+        this.request.addEventListener('error', e => console.error(e));
+        this.request.addEventListener('load', function() { console.log(this.responseText)});
+        // this.request.send(formData);  TODO: Fix Binary Data issue
+
+        async function getBinary(path) {
+            return new Promise((res, rej) => {
+                let chunks = [];
+                let stream = fs.createReadStream(path);
+
+                stream.on('data', chunk => chunks.push(chunk));
+                stream.on('end', () => res(chunks));
+                stream.on('error', e => console.log(e));
+            });
+        }
+        getBinary(path);
+
     }
+    
 }
