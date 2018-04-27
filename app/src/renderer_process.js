@@ -11,6 +11,7 @@ ReactDOM.render(
 let scanner = new VirusTotal('./app/src/assets/private/virus_total.key');
 
 (async () => {
-    let hash = await scanner.scan('C:\\Program Files\\internet explorer\\iexplore.exe');
+    // let hash = await scanner.report(null, 'C:\\WINDOWS\\system32\\cmd.exe'); //ec436aeee41857eee5875efdb7166fe043349db5f58f3ee9fc4ff7f50005767f
+    let hash = await scanner.scan('C:\\WINDOWS\\system32\\cmd.exe');
 })();
 

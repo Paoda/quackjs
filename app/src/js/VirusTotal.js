@@ -1,6 +1,6 @@
 import fs from 'fs';
 import Crypto from 'crypto';
-import querystring from 'querystring';
+import MemoryStream from './MemoryStream';
 
 
 export default class VirusTotal {
@@ -40,35 +40,31 @@ export default class VirusTotal {
         this.request.open('GET', (this.prefix + 'file/report?apikey=' + this.key + '&resource=' + sha256))
 
         this.request.addEventListener('error', e => console.error(e));
-        this.request.addEventListener('load', function() { console.log(this.responseText) });
-        // this.request.send(); Function Done
+        this.request.addEventListener('load', function() { console.log(JSON.parse(this.responseText)); });
+        // this.request.send();
     }
     async scan(path) { //https://www.virustotal.com/vtapi/v2/file/scan
         //Size limit: 32MB
-        let binary = await getBinary(path);
-        
+        let binary = await this.getBinary(path);
+
         let formData = new FormData();
         formData.append('apikey', this.key);
-        console.log(formData);
-        formData.append('file', binary.toString('utf8'));
+        formData.append('file', binary);
 
         this.request.open('POST', (this.prefix + 'file/scan'));
         this.request.addEventListener('error', e => console.error(e));
         this.request.addEventListener('load', function() { console.log(this.responseText)});
-        // this.request.send(formData);  TODO: Fix Binary Data issue
-
-        async function getBinary(path) {
-            return new Promise((res, rej) => {
-                let chunks = [];
-                let stream = fs.createReadStream(path);
-
-                stream.on('data', chunk => chunks.push(chunk));
-                stream.on('end', () => res(chunks));
-                stream.on('error', e => console.log(e));
-            });
-        }
-        getBinary(path);
+        // this.request.send(formData);
 
     }
-    
+    getBinary(path) {
+        return new Promise((res, rej) => {
+            let stream = fs.createReadStream(path).pipe(new MemoryStream().on('finish', function() {
+                res(this.getBuffer());
+            })).on('error', err => {
+                this.end();
+                console.error(err)
+            });
+        });
+    }
 }
